@@ -1,0 +1,31 @@
+package com.apostas.model;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "tipsters")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Tipster {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true, length = 100)
+    private String name;
+
+    @Column(nullable = false)
+    private Boolean active = true;
+
+    @PrePersist
+    @PreUpdate
+    private void normalize() {
+        if (name != null) {
+            name = name.trim();
+        }
+    }
+}

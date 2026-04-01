@@ -1,0 +1,13 @@
+{
+  "bankrollId": 3,
+  "betDate": "2024-03-26",
+  "sport": "Futebol",
+  "championship": "Brasileirao",
+  "event": "Flamengo vs Palmeiras",
+  "market": "Resultado Final",
+  "bookmaker": "Bet365",
+  "tipster": "Joao Silva",
+  "odd": 2.5,
+  "stake": 100,
+  "status": "PENDING"
+}

@@ -1,0 +1,97 @@
+services:
+  # ===================================
+  # BANCO DE DADOS (MySQL)
+  # ===================================
+  mysql:
+    image: mysql:8.0
+    container_name: apostas-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: apostas_db
+      MYSQL_USER: apostas_user
+      MYSQL_PASSWORD: apostas_pass
+    ports:
+      - "3309:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - apostas-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot123"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  # ===================================
+  # BACKEND (Spring Boot)
+  # ===================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: apostas-backend
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # Sobrescreve application.properties
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/apostas_db?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: apostas_user
+      SPRING_DATASOURCE_PASSWORD: apostas_pass
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_JPA_SHOW_SQL: "true"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - apostas-network
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # ===================================
+  # FRONTEND (React + Vite)
+  # ===================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: apostas-frontend
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      # API Base URL acessível do navegador (host machine)
+      VITE_API_BASE_URL: http://localhost:8080/api
+    volumes:
+      # Hot-reload: Monta código local no container
+      - ./frontend/src:/app/src:cached
+      - ./frontend/public:/app/public:cached
+      - ./frontend/index.html:/app/index.html:cached
+      - ./frontend/vite.config.ts:/app/vite.config.ts:cached
+      - ./frontend/tsconfig.json:/app/tsconfig.json:cached
+      - ./frontend/tsconfig.app.json:/app/tsconfig.app.json:cached
+      - ./frontend/tsconfig.node.json:/app/tsconfig.node.json:cached
+      - ./frontend/tailwind.config.js:/app/tailwind.config.js:cached
+      - ./frontend/postcss.config.js:/app/postcss.config.js:cached
+      # Exclui node_modules (usa o do container)
+      - /app/node_modules
+    depends_on:
+      - backend
+    networks:
+      - apostas-network
+    stdin_open: true
+    tty: true
+
+volumes:
+  mysql_data:
+    driver: local
+
+networks:
+  apostas-network:
+    driver: bridge
