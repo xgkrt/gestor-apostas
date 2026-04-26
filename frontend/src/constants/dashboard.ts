@@ -1,0 +1,1 @@
+export const DASHBOARD_PREFERRED_BANKROLL_KEY = "dashboard_preferred_bankroll_id"
