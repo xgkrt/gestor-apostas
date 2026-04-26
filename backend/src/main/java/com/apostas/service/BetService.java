@@ -20,7 +20,6 @@ public class BetService {
     private final BetRepository betRepository;
     private final BankrollRepository bankrollRepository;
     private final SportRepository sportRepository;
-    private final ChampionshipRepository championshipRepository;
     private final MarketRepository marketRepository;
     private final BookmakerRepository bookmakerRepository;
     private final TipsterRepository tipsterRepository;
@@ -67,12 +66,6 @@ public class BetService {
             bet.setSport(sport);
         }
         
-        if (dto.getChampionshipId() != null) {
-            Championship championship = championshipRepository.findById(dto.getChampionshipId())
-                    .orElseThrow(() -> new RuntimeException("Campeonato não encontrado"));
-            bet.setChampionship(championship);
-        }
-        
         if (dto.getMarketId() != null) {
             Market market = marketRepository.findById(dto.getMarketId())
                     .orElseThrow(() -> new RuntimeException("Mercado não encontrado"));
@@ -114,14 +107,6 @@ public class BetService {
             bet.setSport(sport);
         } else {
             bet.setSport(null);
-        }
-        
-        if (dto.getChampionshipId() != null) {
-            Championship championship = championshipRepository.findById(dto.getChampionshipId())
-                    .orElseThrow(() -> new RuntimeException("Campeonato não encontrado"));
-            bet.setChampionship(championship);
-        } else {
-            bet.setChampionship(null);
         }
         
         if (dto.getMarketId() != null) {
@@ -203,11 +188,6 @@ public class BetService {
         if (bet.getSport() != null) {
             dto.setSportId(bet.getSport().getId());
             dto.setSportName(bet.getSport().getName());
-        }
-        
-        if (bet.getChampionship() != null) {
-            dto.setChampionshipId(bet.getChampionship().getId());
-            dto.setChampionshipName(bet.getChampionship().getName());
         }
         
         if (bet.getMarket() != null) {

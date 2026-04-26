@@ -24,5 +24,6 @@ public class DashboardDTO {
     private BigDecimal totalInvested;
     
     private List<BookmakerProfitDTO> profitByBookmaker;
+    private List<TipsterProfitDTO> profitByTipster;
     private List<BankrollEvolutionDTO> bankrollEvolution;
 }

@@ -3,6 +3,7 @@ package com.apostas.service;
 import com.apostas.dto.BankrollEvolutionDTO;
 import com.apostas.dto.BookmakerProfitDTO;
 import com.apostas.dto.DashboardDTO;
+import com.apostas.dto.TipsterProfitDTO;
 import com.apostas.model.Bankroll;
 import com.apostas.model.Bet;
 import com.apostas.model.BetStatus;
@@ -183,8 +184,25 @@ public class DashboardService {
             .collect(Collectors.toList());
         dashboard.setProfitByBookmaker(bookmakerProfits);
 
+        // 8. LUCRO POR TIPSTER (filtrado)
+        List<Object[]> tipsterResults;
+        if (useDateFilter) {
+            tipsterResults = betRepository.sumProfitByTipsterAndBetDateBetween(
+                bankrollId, startDate, endDate);
+        } else {
+            tipsterResults = betRepository.sumProfitByTipster(bankrollId);
+        }
+
+        List<TipsterProfitDTO> tipsterProfits = tipsterResults.stream()
+            .map(result -> new TipsterProfitDTO(
+                (String) result[0],
+                (BigDecimal) result[1]
+            ))
+            .collect(Collectors.toList());
+        dashboard.setProfitByTipster(tipsterProfits);
+
         log.info(
-            "dashboard result: totalBets={}, greenBets={}, redBets={}, pendingBets={}, totalProfit={}, totalInvested={}, evolutionPoints={}, bookmakers={}",
+            "dashboard result: totalBets={}, greenBets={}, redBets={}, pendingBets={}, totalProfit={}, totalInvested={}, evolutionPoints={}, bookmakers={}, tipsters={}",
             dashboard.getTotalBets(),
             dashboard.getGreenBets(),
             dashboard.getRedBets(),
@@ -192,7 +210,8 @@ public class DashboardService {
             dashboard.getTotalProfit(),
             dashboard.getTotalInvested(),
             evolution.size(),
-            bookmakerProfits.size()
+            bookmakerProfits.size(),
+            tipsterProfits.size()
         );
         
         return dashboard;

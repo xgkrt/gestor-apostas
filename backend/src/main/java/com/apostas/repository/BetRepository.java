@@ -35,6 +35,9 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
     
     @Query("SELECT COALESCE(b.bookmaker.name, b.bookmakerOld), SUM(b.profit) FROM Bet b WHERE b.bankroll.id = :bankrollId AND b.status != 'PENDING' GROUP BY COALESCE(b.bookmaker.name, b.bookmakerOld) ORDER BY SUM(b.profit) DESC")
     List<Object[]> sumProfitByBookmaker(@Param("bankrollId") Long bankrollId);
+
+    @Query("SELECT COALESCE(b.tipster.name, b.tipsterOld, 'Sem Tipster'), SUM(b.profit) FROM Bet b WHERE b.bankroll.id = :bankrollId AND b.status != 'PENDING' GROUP BY COALESCE(b.tipster.name, b.tipsterOld, 'Sem Tipster') ORDER BY SUM(b.profit) DESC")
+    List<Object[]> sumProfitByTipster(@Param("bankrollId") Long bankrollId);
     
     // ========================================
     // QUERIES COM FILTRO DE DATA
@@ -82,6 +85,13 @@ public interface BetRepository extends JpaRepository<Bet, Long> {
     // Lucro por bookmaker filtrado por período
     @Query("SELECT COALESCE(b.bookmaker.name, b.bookmakerOld), SUM(b.profit) FROM Bet b WHERE b.bankroll.id = :bankrollId AND b.status != 'PENDING' AND b.betDate BETWEEN :startDate AND :endDate GROUP BY COALESCE(b.bookmaker.name, b.bookmakerOld) ORDER BY SUM(b.profit) DESC")
     List<Object[]> sumProfitByBookmakerAndBetDateBetween(
+        @Param("bankrollId") Long bankrollId,
+        @Param("startDate") LocalDate startDate,
+        @Param("endDate") LocalDate endDate
+    );
+
+    @Query("SELECT COALESCE(b.tipster.name, b.tipsterOld, 'Sem Tipster'), SUM(b.profit) FROM Bet b WHERE b.bankroll.id = :bankrollId AND b.status != 'PENDING' AND b.betDate BETWEEN :startDate AND :endDate GROUP BY COALESCE(b.tipster.name, b.tipsterOld, 'Sem Tipster') ORDER BY SUM(b.profit) DESC")
+    List<Object[]> sumProfitByTipsterAndBetDateBetween(
         @Param("bankrollId") Long bankrollId,
         @Param("startDate") LocalDate startDate,
         @Param("endDate") LocalDate endDate
