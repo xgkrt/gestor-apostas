@@ -1,4 +1,5 @@
 import { Suspense } from "react"
+import { useNavigate } from "react-router-dom"
 import { DashboardHeader } from "@/components/dashboard/DashboardHeader"
 import { DashboardMetrics } from "@/components/dashboard/DashboardMetrics"
 import { RecentBetsTable } from "@/components/dashboard/RecentBetsTable"
@@ -10,6 +11,7 @@ import { useDashboardPage } from "./Dashboard/hooks/useDashboardPage"
 
 export default function Dashboard() {
   const { data, computed, handlers } = useDashboardPage()
+  const navigate = useNavigate()
 
   if (data.loadingBankrolls) {
     return (
@@ -42,7 +44,8 @@ export default function Dashboard() {
   return (
     <div className="w-full space-y-8 animate-in fade-in duration-500">
       <DashboardHeader
-        rightContent={<PeriodFilter defaultPeriod="this_month" onChange={handlers.setDateFilter} />}
+        onNewBet={() => navigate("/nova-aposta")}
+        rightContent={<PeriodFilter onChange={handlers.setDateFilter} />}
       />
 
       {data.dashboard && (

@@ -53,7 +53,9 @@ export function BetsTable({
                 <TableCell className="text-sm text-muted-foreground">{formatBetDate(bet.betDate)}</TableCell>
                 <TableCell className="text-sm font-medium text-foreground">{bet.sportName || bet.sport || "-"}</TableCell>
                 <TableCell className="text-sm font-medium text-foreground max-w-[280px]">
-                  <span className="block truncate">{bet.event}</span>
+                  <span className="block overflow-hidden leading-tight [display:-webkit-box] [-webkit-line-clamp:2] [-webkit-box-orient:vertical]">
+                    {bet.event}
+                  </span>
                 </TableCell>
                 <TableCell className="text-sm text-foreground/80">{bet.marketName || bet.market || "-"}</TableCell>
                 <TableCell>

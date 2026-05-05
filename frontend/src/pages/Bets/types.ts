@@ -1,4 +1,4 @@
-import type { Bet, BetDTO, BetStatus } from "@/types"
+import type { Bet, BetDTO, BetStatus, Bookmaker, Market, Sport, Tipster } from "@/types"
 
 export type BetsStatusFilter = "ALL" | "GREEN" | "RED" | "PENDING" | "VOID"
 
@@ -18,6 +18,10 @@ export interface BetsPageState {
   // Estados de filtros e paginação
   searchTerm: string
   statusFilter: BetsStatusFilter
+  sportFilter: string
+  marketFilter: string
+  bookmakerFilter: string
+  tipsterFilter: string
   startDate: string
   endDate: string
   currentPage: number
@@ -49,6 +53,10 @@ export interface BetsPageHandlers {
   // Filtros e paginação
   setSearchTerm: React.Dispatch<React.SetStateAction<string>>
   setStatusFilter: React.Dispatch<React.SetStateAction<BetsStatusFilter>>
+  setSportFilter: React.Dispatch<React.SetStateAction<string>>
+  setMarketFilter: React.Dispatch<React.SetStateAction<string>>
+  setBookmakerFilter: React.Dispatch<React.SetStateAction<string>>
+  setTipsterFilter: React.Dispatch<React.SetStateAction<string>>
   setStartDate: React.Dispatch<React.SetStateAction<string>>
   setEndDate: React.Dispatch<React.SetStateAction<string>>
   setCurrentPage: React.Dispatch<React.SetStateAction<number>>
@@ -90,10 +98,22 @@ export interface BetEditDialogProps {
 export interface BetsFiltersProps {
   searchTerm: string
   statusFilter: BetsStatusFilter
+  sportFilter: string
+  marketFilter: string
+  bookmakerFilter: string
+  tipsterFilter: string
   startDate: string
   endDate: string
+  sports?: Sport[]
+  markets?: Market[]
+  bookmakers?: Bookmaker[]
+  tipsters?: Tipster[]
   onSearchChange: (value: string) => void
   onStatusFilterChange: (value: BetsStatusFilter) => void
+  onSportFilterChange: (value: string) => void
+  onMarketFilterChange: (value: string) => void
+  onBookmakerFilterChange: (value: string) => void
+  onTipsterFilterChange: (value: string) => void
   onStartDateChange: (value: string) => void
   onEndDateChange: (value: string) => void
 }

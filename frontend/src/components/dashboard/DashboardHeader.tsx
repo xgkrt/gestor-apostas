@@ -25,7 +25,7 @@ export function DashboardHeader({ onNewBet, rightContent }: DashboardHeaderProps
             className="bg-blue-600 text-white px-6 py-3 rounded-xl font-semibold flex items-center gap-2 hover:bg-blue-700 shadow-lg shadow-blue-600/20 transition-all duration-200 active:scale-95"
           >
             <Plus className="w-4 h-4" />
-            <span className="text-sm">+ Nova Aposta</span>
+            <span className="text-sm">Nova Aposta</span>
           </Button>
         )}
       </div>

@@ -2,7 +2,11 @@ import { useEffect, useMemo, useState, type FormEvent } from "react"
 import { parse, startOfDay } from "date-fns"
 import {
   useBets,
+  useBookmakers,
   useDeleteBet,
+  useMarkets,
+  useSports,
+  useTipsters,
   useUpdateBet,
   useUpdateBetStatus,
 } from "@/services/queries"
@@ -29,6 +33,10 @@ export function useBetsPage() {
   // Estados de filtros e paginação
   const [searchTerm, setSearchTerm] = useState("")
   const [statusFilter, setStatusFilter] = useState<BetsStatusFilter>("ALL")
+  const [sportFilter, setSportFilter] = useState("ALL")
+  const [marketFilter, setMarketFilter] = useState("ALL")
+  const [bookmakerFilter, setBookmakerFilter] = useState("ALL")
+  const [tipsterFilter, setTipsterFilter] = useState("ALL")
   const [startDate, setStartDate] = useState("")
   const [endDate, setEndDate] = useState("")
   const [currentPage, setCurrentPage] = useState(1)
@@ -36,6 +44,10 @@ export function useBetsPage() {
   // Hooks de dados e mutações
   const { toast } = useToast()
   const { data: bets, isLoading: loadingBets } = useBets()
+  const { data: sports, isLoading: loadingSports } = useSports()
+  const { data: markets, isLoading: loadingMarkets } = useMarkets()
+  const { data: bookmakers, isLoading: loadingBookmakers } = useBookmakers()
+  const { data: tipsters, isLoading: loadingTipsters } = useTipsters()
   const deleteBet = useDeleteBet()
   const updateBet = useUpdateBet()
   const updateBetStatus = useUpdateBetStatus()
@@ -97,6 +109,10 @@ export function useBetsPage() {
   // Filtragem de apostas por termo de busca
   const filteredBets = useMemo(() => {
     const normalizedTerm = debouncedSearchTerm.trim().toLowerCase()
+    const selectedSportName = sports?.find((sport) => sport.id.toString() === sportFilter)?.name.toLowerCase()
+    const selectedMarketName = markets?.find((market) => market.id.toString() === marketFilter)?.name.toLowerCase()
+    const selectedBookmakerName = bookmakers?.find((bookmaker) => bookmaker.id.toString() === bookmakerFilter)?.name.toLowerCase()
+    const selectedTipsterName = tipsters?.find((tipster) => tipster.id.toString() === tipsterFilter)?.name.toLowerCase()
 
     const startDateTimestamp = startDate
       ? startOfDay(parse(startDate, "yyyy-MM-dd", new Date())).getTime()
@@ -123,6 +139,42 @@ export function useBetsPage() {
         }
       }
 
+      if (
+        sportFilter !== "ALL" &&
+        bet.sportId?.toString() !== sportFilter &&
+        bet.sportName?.toLowerCase() !== selectedSportName &&
+        bet.sport?.toLowerCase() !== selectedSportName
+      ) {
+        return false
+      }
+
+      if (
+        marketFilter !== "ALL" &&
+        bet.marketId?.toString() !== marketFilter &&
+        bet.marketName?.toLowerCase() !== selectedMarketName &&
+        bet.market?.toLowerCase() !== selectedMarketName
+      ) {
+        return false
+      }
+
+      if (
+        bookmakerFilter !== "ALL" &&
+        bet.bookmakerId?.toString() !== bookmakerFilter &&
+        bet.bookmakerName?.toLowerCase() !== selectedBookmakerName &&
+        bet.bookmaker?.toLowerCase() !== selectedBookmakerName
+      ) {
+        return false
+      }
+
+      if (
+        tipsterFilter !== "ALL" &&
+        bet.tipsterId?.toString() !== tipsterFilter &&
+        bet.tipsterName?.toLowerCase() !== selectedTipsterName &&
+        bet.tipster?.toLowerCase() !== selectedTipsterName
+      ) {
+        return false
+      }
+
       if (!startDateTimestamp && !endDateTimestamp) return true
 
       const betDateTimestamp = parseBetDateTimestamp(bet.betDate)
@@ -133,7 +185,21 @@ export function useBetsPage() {
 
       return true
     })
-  }, [sortedBets, debouncedSearchTerm, statusFilter, startDate, endDate])
+  }, [
+    sortedBets,
+    debouncedSearchTerm,
+    statusFilter,
+    sportFilter,
+    marketFilter,
+    bookmakerFilter,
+    tipsterFilter,
+    startDate,
+    endDate,
+    sports,
+    markets,
+    bookmakers,
+    tipsters,
+  ])
 
   // Cálculo de paginação
   const totalPages = Math.max(1, Math.ceil(filteredBets.length / PAGE_SIZE))
@@ -146,7 +212,16 @@ export function useBetsPage() {
   // Resetar página ao mudar termo de busca
   useEffect(() => {
     setCurrentPage(1)
-  }, [searchTerm, statusFilter, startDate, endDate])
+  }, [
+    searchTerm,
+    statusFilter,
+    sportFilter,
+    marketFilter,
+    bookmakerFilter,
+    tipsterFilter,
+    startDate,
+    endDate,
+  ])
 
   // Ajustar página se exceder total de páginas
   useEffect(() => {
@@ -278,6 +353,10 @@ export function useBetsPage() {
     betToDelete,
     searchTerm,
     statusFilter,
+    sportFilter,
+    marketFilter,
+    bookmakerFilter,
+    tipsterFilter,
     startDate,
     endDate,
     currentPage,
@@ -298,6 +377,10 @@ export function useBetsPage() {
     handleStatusChange,
     setSearchTerm,
     setStatusFilter,
+    setSportFilter,
+    setMarketFilter,
+    setBookmakerFilter,
+    setTipsterFilter,
     setStartDate,
     setEndDate,
     setCurrentPage,
@@ -306,8 +389,12 @@ export function useBetsPage() {
   return {
     state,
     handlers,
-    isLoading: loadingBets,
+    isLoading: loadingBets || loadingSports || loadingMarkets || loadingBookmakers || loadingTipsters,
     bets,
+    sports,
+    markets,
+    bookmakers,
+    tipsters,
     isUpdatingBet: updateBet.isPending,
     isUpdatingStatus: updateBetStatus.isPending,
   }

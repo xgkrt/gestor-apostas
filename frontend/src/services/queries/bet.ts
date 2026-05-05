@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { betAPI } from '../api';
 import type { Bet, BetImportCommitResponse, BetImportPreviewResponse, CreateBetDTO } from '../../types';
 
-export const useBets = (bankrollId?: number) => {
+export const useBets = (bankrollId?: number, enabled = true) => {
   return useQuery<Bet[]>({
     queryKey: ['bets', bankrollId],
     queryFn: async () => {
@@ -11,6 +11,7 @@ export const useBets = (bankrollId?: number) => {
         : await betAPI.getAll();
       return response.data;
     },
+    enabled,
   });
 };
 

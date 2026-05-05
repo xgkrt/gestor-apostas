@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { render } from '../test-utils';
 import Dashboard from '../../pages/Dashboard';
 import type { Bankroll, Dashboard as DashboardType, Bet } from '../../types';
@@ -125,5 +126,39 @@ describe('Dashboard Integration Tests', () => {
     await waitFor(() => {
       expect(screen.queryByLabelText(/selecione uma banca/i)).not.toBeInTheDocument();
     });
+  });
+
+  it('shows calendar period control', async () => {
+    const user = userEvent.setup();
+
+    render(<Dashboard />);
+
+    await waitFor(() => {
+      expect(screen.getByRole('combobox', { name: 'Periodo' })).toBeInTheDocument();
+      expect(screen.getAllByRole('button', { name: 'Mes anterior' }).length).toBeGreaterThan(0);
+      expect(screen.getAllByRole('button', { name: 'Proximo mes' }).length).toBeGreaterThan(0);
+    });
+
+    expect(screen.queryByText('Ano')).not.toBeInTheDocument();
+
+    await user.click(screen.getByRole('combobox', { name: 'Periodo' }));
+
+    expect(await screen.findByRole('option', { name: 'Tudo' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Hoje' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Ultimos 7 dias' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Janeiro de 2026' })).toBeInTheDocument();
+    expect(screen.getByRole('option', { name: 'Dezembro de 2026' })).toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: 'Ultimos 15 dias' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('option', { name: 'Este ano' })).not.toBeInTheDocument();
+  });
+
+  it('navigates to new bet page from dashboard button', async () => {
+    const user = userEvent.setup();
+
+    render(<Dashboard />);
+
+    await user.click(await screen.findByRole('button', { name: /nova aposta/i }));
+
+    expect(await screen.findByText('Nova Aposta')).toBeInTheDocument();
   });
 });

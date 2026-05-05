@@ -10,7 +10,18 @@ import { BetEditDialog } from "./Bets/components/BetEditDialog"
  * Container que orquestra todos os componentes e lógica da página
  */
 export default function Bets() {
-  const { state, handlers, isLoading, bets, isUpdatingBet, isUpdatingStatus } = useBetsPage()
+  const {
+    state,
+    handlers,
+    isLoading,
+    bets,
+    sports,
+    markets,
+    bookmakers,
+    tipsters,
+    isUpdatingBet,
+    isUpdatingStatus,
+  } = useBetsPage()
 
   if (isLoading) {
     return (
@@ -29,15 +40,27 @@ export default function Bets() {
 
       <Card className="overflow-hidden rounded-3xl border-border bg-card text-card-foreground shadow-sm">
         <CardHeader className="border-b border-border bg-muted/40 p-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-4">
             <CardTitle className="text-lg font-semibold text-foreground">Lista de Apostas</CardTitle>
             <BetsFilters
               searchTerm={state.searchTerm}
               statusFilter={state.statusFilter}
+              sportFilter={state.sportFilter}
+              marketFilter={state.marketFilter}
+              bookmakerFilter={state.bookmakerFilter}
+              tipsterFilter={state.tipsterFilter}
               startDate={state.startDate}
               endDate={state.endDate}
+              sports={sports}
+              markets={markets}
+              bookmakers={bookmakers}
+              tipsters={tipsters}
               onSearchChange={handlers.setSearchTerm}
               onStatusFilterChange={handlers.setStatusFilter}
+              onSportFilterChange={handlers.setSportFilter}
+              onMarketFilterChange={handlers.setMarketFilter}
+              onBookmakerFilterChange={handlers.setBookmakerFilter}
+              onTipsterFilterChange={handlers.setTipsterFilter}
               onStartDateChange={handlers.setStartDate}
               onEndDateChange={handlers.setEndDate}
             />
