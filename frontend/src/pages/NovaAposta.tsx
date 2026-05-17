@@ -1,6 +1,4 @@
 import { BetFormFields } from "@/components/bets/BetFormFields"
-import { ImportBetsTab } from "@/components/bets/ImportBetsTab"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useNovaApostaPage } from "./NovaAposta/hooks/useNovaApostaPage"
 
 export default function NovaAposta() {
@@ -25,35 +23,20 @@ export default function NovaAposta() {
         </p>
       </div>
 
-      <Tabs defaultValue="manual" className="space-y-6">
-        <TabsList>
-          <TabsTrigger value="manual">Aposta Manual</TabsTrigger>
-          <TabsTrigger value="importar">Importar Planilha</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="manual">
-          <div className="rounded-2xl border border-border bg-card p-8 text-card-foreground">
-            <BetFormFields
-              formData={formData}
-              setFormData={setFormData}
-              bankrolls={bankrolls}
-              sports={sports}
-              markets={markets}
-              bookmakers={bookmakers}
-              tipsters={tipsters}
-              onSubmit={handleSubmit}
-              submitLabel={isSubmitting ? "Salvando..." : "Adicionar Aposta"}
-              isSubmitting={isSubmitting}
-            />
-          </div>
-        </TabsContent>
-
-        <TabsContent value="importar">
-          <div className="rounded-2xl border border-border bg-card p-8 text-card-foreground">
-            <ImportBetsTab />
-          </div>
-        </TabsContent>
-      </Tabs>
+      <div className="rounded-2xl border border-border bg-card p-8 text-card-foreground">
+        <BetFormFields
+          formData={formData}
+          setFormData={setFormData}
+          bankrolls={bankrolls}
+          sports={sports}
+          markets={markets}
+          bookmakers={bookmakers}
+          tipsters={tipsters}
+          onSubmit={handleSubmit}
+          submitLabel={isSubmitting ? "Salvando..." : "Adicionar Aposta"}
+          isSubmitting={isSubmitting}
+        />
+      </div>
     </div>
   )
 }

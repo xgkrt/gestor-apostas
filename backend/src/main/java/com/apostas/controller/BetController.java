@@ -1,15 +1,11 @@
 package com.apostas.controller;
 
 import com.apostas.dto.BetDTO;
-import com.apostas.dto.BetImportCommitResponseDTO;
-import com.apostas.dto.BetImportPreviewResponseDTO;
 import com.apostas.service.BetService;
-import com.apostas.service.BetImportService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,11 +14,9 @@ import java.util.List;
 public class BetController {
     
     private final BetService betService;
-    private final BetImportService betImportService;
 
-    public BetController(BetService betService, BetImportService betImportService) {
+    public BetController(BetService betService) {
         this.betService = betService;
-        this.betImportService = betImportService;
     }
     
     @GetMapping
@@ -61,19 +55,5 @@ public class BetController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         betService.delete(id);
         return ResponseEntity.noContent().build();
-    }
-
-    @PostMapping("/import/preview")
-    public ResponseEntity<BetImportPreviewResponseDTO> previewImport(
-            @RequestParam("file") MultipartFile file,
-            @RequestParam("bankrollId") Long bankrollId,
-            @RequestParam("month") Integer month,
-            @RequestParam("year") Integer year) {
-        return ResponseEntity.ok(betImportService.preview(file, bankrollId, month, year));
-    }
-
-    @PostMapping("/import/commit")
-    public ResponseEntity<BetImportCommitResponseDTO> commitImport(@RequestParam("previewId") String previewId) {
-        return ResponseEntity.ok(betImportService.commit(previewId));
     }
 }

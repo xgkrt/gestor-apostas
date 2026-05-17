@@ -1,5 +1,5 @@
 ﻿import { Link, useLocation } from 'react-router-dom'
-import { BarChart3, CalendarCheck, Receipt, Wallet, Settings, PlusCircle } from 'lucide-react'
+import { BarChart3, CalendarCheck, CalendarRange, Receipt, Wallet, Settings, PlusCircle } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -48,6 +48,11 @@ export function AppSidebar() {
       title: 'Fechamento',
       icon: CalendarCheck,
       path: '/fechamento',
+    },
+    {
+      title: 'Anual',
+      icon: CalendarRange,
+      path: '/anual',
     },
     {
       title: 'Configurações',

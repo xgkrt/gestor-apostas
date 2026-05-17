@@ -95,39 +95,6 @@ export interface BetDTO {
   status: BetStatus;
 }
 
-export interface BetImportPreviewRow {
-  rowNumber: number;
-  betDate: string | null;
-  sport: string | null;
-  market: string | null;
-  bookmaker: string | null;
-  tipster: string | null;
-  event: string | null;
-  odd: number | null;
-  stake: number | null;
-  result: number | null;
-  status: BetStatus;
-  statusSource: string | null;
-  valid: boolean;
-  warnings: string[];
-  errors: string[];
-}
-
-export interface BetImportPreviewResponse {
-  previewId: string;
-  totalRows: number;
-  validRows: number;
-  invalidRows: number;
-  rows: BetImportPreviewRow[];
-}
-
-export interface BetImportCommitResponse {
-  previewId: string;
-  importedRows: number;
-  skippedRows: number;
-  totalRows: number;
-}
-
 // =====================================================
 // CONFIGURAÇÕES - Novas Interfaces
 // =====================================================

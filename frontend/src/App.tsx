@@ -19,6 +19,7 @@ const Bets = lazy(() => import('./pages/Bets'));
 const NovaAposta = lazy(() => import('./pages/NovaAposta'));
 const Bankrolls = lazy(() => import('./pages/Bankrolls'));
 const MonthlyClosing = lazy(() => import('./pages/MonthlyClosing'));
+const Annual = lazy(() => import('./pages/Annual'));
 const Settings = lazy(() => import('./pages/Settings'));
 
 const queryClient = new QueryClient({
@@ -82,6 +83,14 @@ function App() {
                       element={
                         <Suspense fallback={<DashboardSkeleton />}>
                           <MonthlyClosing />
+                        </Suspense>
+                      } 
+                    />
+                    <Route 
+                      path="/anual" 
+                      element={
+                        <Suspense fallback={<DashboardSkeleton />}>
+                          <Annual />
                         </Suspense>
                       } 
                     />

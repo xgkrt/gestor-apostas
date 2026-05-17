@@ -20,6 +20,14 @@ import type { Bet } from "@/types"
 import { formatBetDate, getStatusClasses } from "../utils/formatting"
 import type { RecentBetsStatusFilter } from "../types"
 
+const UNIT_VALUE = 50
+
+function formatUnits(value: number): string {
+  const units = value / UNIT_VALUE
+  const sign = units > 0 ? "+" : ""
+  return `${sign}${units.toFixed(2)}u`
+}
+
 interface RecentBetsTableContentProps {
   bets: Bet[]
   filteredBets: Bet[]
@@ -188,11 +196,14 @@ export function RecentBetsTableContent({
                       </Select>
                     </TableCell>
                     <TableCell
-                      className={`px-4 py-4 text-sm impact-money ${
+                      className={`min-w-[96px] whitespace-nowrap px-4 py-4 text-sm impact-money ${
                         bet.profit >= 0 ? "text-emerald-600 dark:text-emerald-300" : "text-red-600 dark:text-rose-300"
                       }`}
                     >
-                      R$ {bet.profit.toFixed(2)}
+                      <div className="flex flex-col items-center text-center leading-tight">
+                        <span>R$ {bet.profit.toFixed(2)}</span>
+                        <span className="mt-0.5 text-xs font-semibold opacity-85">{formatUnits(bet.profit)}</span>
+                      </div>
                     </TableCell>
                     <TableCell className="px-8 py-4 text-center">
                       <Button

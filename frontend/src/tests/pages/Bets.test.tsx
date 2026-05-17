@@ -103,6 +103,8 @@ describe('Bets Integration Tests', () => {
     await waitFor(() => {
       expect(screen.getByText('Team A vs Team B')).toBeInTheDocument()
       expect(screen.getByText('Team C vs Team D')).toBeInTheDocument()
+      expect(screen.getByText('+1.50u')).toBeInTheDocument()
+      expect(screen.getByText('-2.00u')).toBeInTheDocument()
     })
   })
 

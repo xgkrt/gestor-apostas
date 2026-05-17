@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { betAPI } from '../api';
-import type { Bet, BetImportCommitResponse, BetImportPreviewResponse, CreateBetDTO } from '../../types';
+import type { Bet, CreateBetDTO } from '../../types';
 
 export const useBets = (bankrollId?: number, enabled = true) => {
   return useQuery<Bet[]>({
@@ -61,34 +61,6 @@ export const useUpdateBetStatus = () => {
       queryClient.invalidateQueries({ queryKey: ['bets'] });
       queryClient.invalidateQueries({ queryKey: ['dashboard'] });
       queryClient.invalidateQueries({ queryKey: ['bankrolls'] });
-    },
-  });
-};
-
-export const usePreviewBetImport = () => {
-  return useMutation({
-    mutationFn: async (data: FormData) => {
-      const response = await betAPI.previewImport(data);
-      return response.data as BetImportPreviewResponse;
-    },
-  });
-};
-
-export const useCommitBetImport = () => {
-  const queryClient = useQueryClient();
-  return useMutation({
-    mutationFn: async (previewId: string) => {
-      const response = await betAPI.commitImport(previewId);
-      return response.data as BetImportCommitResponse;
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['bets'] });
-      queryClient.invalidateQueries({ queryKey: ['dashboard'] });
-      queryClient.invalidateQueries({ queryKey: ['bankrolls'] });
-      queryClient.invalidateQueries({ queryKey: ['sports'] });
-      queryClient.invalidateQueries({ queryKey: ['markets'] });
-      queryClient.invalidateQueries({ queryKey: ['bookmakers'] });
-      queryClient.invalidateQueries({ queryKey: ['tipsters'] });
     },
   });
 };

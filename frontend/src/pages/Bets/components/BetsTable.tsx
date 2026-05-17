@@ -13,6 +13,14 @@ import { formatBetDate, getStatusClasses, getProfitClasses } from "../utils/form
 import { STATUS_LABELS, ALL_STATUSES } from "../types"
 import type { BetsTableProps } from "../types"
 
+const UNIT_VALUE = 50
+
+function formatUnits(value: number): string {
+  const units = value / UNIT_VALUE
+  const sign = units > 0 ? "+" : ""
+  return `${sign}${units.toFixed(2)}u`
+}
+
 /**
  * Componente puro de UI para exibir tabela de apostas com paginação
  */
@@ -86,8 +94,11 @@ export function BetsTable({
                     </SelectContent>
                   </Select>
                 </TableCell>
-                <TableCell className={getProfitClasses(bet.profit)}>
-                  R$ {bet.profit.toFixed(2)}
+                <TableCell className={`${getProfitClasses(bet.profit)} min-w-[96px] whitespace-nowrap`}>
+                  <div className="flex flex-col items-center text-center leading-tight">
+                    <span>R$ {bet.profit.toFixed(2)}</span>
+                    <span className="mt-0.5 text-xs font-semibold opacity-85">{formatUnits(bet.profit)}</span>
+                  </div>
                 </TableCell>
                 <TableCell className="text-right">
                   <div className="flex justify-end gap-1">

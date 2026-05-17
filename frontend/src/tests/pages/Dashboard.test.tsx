@@ -86,6 +86,7 @@ describe('Dashboard Integration Tests', () => {
     vi.spyOn(api.bankrollAPI, 'getAll').mockResolvedValue({ data: mockBankrolls } as any);
     vi.spyOn(api.dashboardAPI, 'get').mockResolvedValue({ data: mockDashboard } as any);
     vi.spyOn(api.betAPI, 'getAll').mockResolvedValue({ data: mockBets } as any);
+    vi.spyOn(api.betAPI, 'getByBankrollId').mockResolvedValue({ data: mockBets } as any);
   });
 
   it('renders dashboard page', async () => {
@@ -106,6 +107,7 @@ describe('Dashboard Integration Tests', () => {
       const roiElements = screen.getAllByText(/25\.0%/);
       expect(roiElements.length).toBeGreaterThan(0);
       expect(screen.getByText(/75%/)).toBeInTheDocument();
+      expect(screen.getByText('+1.50u')).toBeInTheDocument();
     });
   });
 

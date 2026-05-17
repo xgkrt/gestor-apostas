@@ -28,14 +28,6 @@ export const betAPI = {
   update: (id: number, data: any) => api.put(`/bets/${id}`, data),
   updateStatus: (id: number, status: string) => 
     api.patch(`/bets/${id}/status?status=${status}`),
-  previewImport: (data: FormData) =>
-    api.post('/bets/import/preview', data, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    }),
-  commitImport: (previewId: string) =>
-    api.post(`/bets/import/commit?previewId=${encodeURIComponent(previewId)}`),
   delete: (id: number) => api.delete(`/bets/${id}`),
 };
 
