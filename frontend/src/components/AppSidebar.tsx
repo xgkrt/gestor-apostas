@@ -21,7 +21,7 @@ import { cn } from '@/lib/utils'
 
 export function AppSidebar() {
   const location = useLocation()
-  const { state } = useSidebar()
+  const { isMobile, setOpenMobile, state } = useSidebar()
 
   const mainMenuItems = [
     {
@@ -86,6 +86,9 @@ export function AppSidebar() {
                         <TooltipTrigger className="w-full">
                           <Link
                             to={item.path}
+                            onClick={() => {
+                              if (isMobile) setOpenMobile(false)
+                            }}
                             className={cn(
                               "flex items-center justify-center rounded-xl transition-all duration-200",
                               "px-2.5 py-2",
@@ -113,6 +116,9 @@ export function AppSidebar() {
                     ) : (
                       <Link
                         to={item.path}
+                        onClick={() => {
+                          if (isMobile) setOpenMobile(false)
+                        }}
                         className={cn(
                           "flex items-center gap-3 py-3 px-4 rounded-xl text-[15px] transition-all duration-200 w-full",
                           isActive

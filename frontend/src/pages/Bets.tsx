@@ -34,12 +34,12 @@ export default function Bets() {
   return (
     <div className="w-full space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Minhas Apostas</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Minhas Apostas</h1>
         <p className="mt-2 text-sm text-muted-foreground">Visualize, edite e exclua suas apostas aqui.</p>
       </div>
 
-      <Card className="overflow-hidden rounded-3xl border-border bg-card text-card-foreground shadow-sm">
-        <CardHeader className="border-b border-border bg-muted/40 p-6">
+      <Card className="overflow-hidden rounded-2xl border-border bg-card text-card-foreground shadow-sm sm:rounded-3xl">
+        <CardHeader className="border-b border-border bg-muted/40 p-4 sm:p-6">
           <div className="flex flex-col gap-4">
             <CardTitle className="text-lg font-semibold text-foreground">Lista de Apostas</CardTitle>
             <BetsFilters

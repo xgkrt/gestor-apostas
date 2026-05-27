@@ -37,7 +37,7 @@ export function ConfirmDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-white border-slate-200 text-slate-900 rounded-3xl shadow-2xl max-w-md">
+      <DialogContent className="bg-white border-slate-200 text-slate-900 rounded-2xl sm:rounded-3xl shadow-2xl max-w-md">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-3 text-slate-900 text-xl font-bold">
             {variant === "destructive" && (
@@ -51,7 +51,7 @@ export function ConfirmDialog({
           {description}
         </div>
 
-        <DialogFooter className="gap-2 sm:gap-2">
+        <DialogFooter className="gap-2 sm:flex-row sm:gap-2">
           <Button
             type="button"
             variant="outline"

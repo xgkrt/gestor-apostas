@@ -24,6 +24,7 @@ export function EntityTable<TEntity extends BaseEntity>({
   onDelete,
 }: EntityTableProps<TEntity>) {
   return (
+    <div className="overflow-x-auto">
     <Table>
       <TableHeader>
         <TableRow>
@@ -80,5 +81,6 @@ export function EntityTable<TEntity extends BaseEntity>({
         )}
       </TableBody>
     </Table>
+    </div>
   );
 }

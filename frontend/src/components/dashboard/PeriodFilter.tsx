@@ -166,7 +166,7 @@ export function PeriodFilter({ defaultPeriod = getCurrentMonthPeriod(), onChange
 
   return (
     <div className="flex flex-wrap items-end gap-2">
-      <div className="grid w-full min-w-[320px] grid-cols-[44px_minmax(220px,1fr)_44px] items-center overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-sm sm:w-auto">
+      <div className="grid w-full min-w-0 grid-cols-[44px_minmax(0,1fr)_44px] items-center overflow-hidden rounded-xl border border-border bg-card text-foreground shadow-sm sm:w-auto sm:min-w-[320px] sm:grid-cols-[44px_minmax(220px,1fr)_44px]">
         <Button
           type="button"
           variant="ghost"
@@ -217,7 +217,7 @@ export function PeriodFilter({ defaultPeriod = getCurrentMonthPeriod(), onChange
 
       {period === "custom" && (
         <>
-          <div className="w-[150px]">
+          <div className="w-full sm:w-[150px]">
             <label className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
               Inicio
             </label>
@@ -229,7 +229,7 @@ export function PeriodFilter({ defaultPeriod = getCurrentMonthPeriod(), onChange
             />
           </div>
 
-          <div className="w-[150px]">
+          <div className="w-full sm:w-[150px]">
             <label className="mb-1 block text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
               Fim
             </label>

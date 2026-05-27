@@ -40,10 +40,10 @@ function App() {
             <SidebarProvider>
               <AppSidebar />
               <SidebarInset>
-                <header className="sticky top-0 z-10 flex h-16 shrink-0 items-center gap-2 border-b border-border/80 bg-background/82 px-4 shadow-[0_8px_18px_-16px_rgba(15,23,42,0.45)] backdrop-blur-lg dark:border-border/90 dark:bg-background/82 dark:shadow-[0_14px_30px_-20px_rgba(2,6,23,0.95)]">
-                  <SidebarTrigger />
+                <header className="sticky top-0 z-10 flex h-14 shrink-0 items-center gap-2 border-b border-border/80 bg-background/90 px-3 shadow-[0_8px_18px_-16px_rgba(15,23,42,0.45)] backdrop-blur-lg sm:h-16 sm:px-4 dark:border-border/90 dark:bg-background/82 dark:shadow-[0_14px_30px_-20px_rgba(2,6,23,0.95)]">
+                  <SidebarTrigger className="size-10 rounded-xl md:size-8" />
                 </header>
-                <main className="flex flex-1 flex-col gap-4 bg-transparent p-8">
+                <main className="flex flex-1 flex-col gap-4 overflow-x-hidden bg-transparent p-4 sm:p-6 lg:p-8">
                   {/* Suspense Boundaries: Show loading state while pages load */}
                   <Routes>
                     <Route 

@@ -15,15 +15,15 @@ export default function NovaAposta() {
   } = useNovaApostaPage()
 
   return (
-    <div className="mx-auto w-full max-w-7xl space-y-6">
+    <div className="mx-auto w-full max-w-7xl space-y-4 sm:space-y-6">
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Nova Aposta</h1>
+        <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Nova Aposta</h1>
         <p className="mt-2 text-sm text-muted-foreground">
           Cadastre uma nova aposta preenchendo os campos abaixo.
         </p>
       </div>
 
-      <div className="rounded-2xl border border-border bg-card p-8 text-card-foreground">
+      <div className="rounded-2xl border border-border bg-card p-4 text-card-foreground sm:p-6 lg:p-8">
         <BetFormFields
           formData={formData}
           setFormData={setFormData}

@@ -64,10 +64,9 @@ describe('ConfirmDialog', () => {
   })
 
   it('should render destructive variant with warning icon', () => {
-    const { container } = render(<ConfirmDialog {...defaultProps} variant="destructive" />)
+    render(<ConfirmDialog {...defaultProps} variant="destructive" />)
 
-    // Warning icon should be present for destructive variant
-    const icon = container.querySelector('svg')
+    const icon = document.body.querySelector('svg')
     expect(icon).toBeInTheDocument()
   })
 

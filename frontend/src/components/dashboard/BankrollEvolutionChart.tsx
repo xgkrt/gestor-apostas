@@ -135,14 +135,14 @@ export function BankrollEvolutionChart({ data }: BankrollEvolutionChartProps) {
   const { series: chartData, baseBalance } = useMemo(() => buildDailyChartData(data), [data])
 
   return (
-    <Card className="bg-card text-card-foreground p-8 rounded-3xl border border-border shadow-sm">
-      <div className="flex items-center justify-between mb-8">
-        <h4 className="text-lg font-semibold text-foreground">
+    <Card className="bg-card text-card-foreground p-4 sm:p-6 lg:p-8 rounded-2xl sm:rounded-3xl border border-border shadow-sm">
+      <div className="flex items-center justify-between mb-5 sm:mb-8">
+        <h4 className="text-base font-semibold text-foreground sm:text-lg">
           Evolução da Banca
         </h4>
       </div>
       
-      <div className="h-64 w-full">
+      <div className="h-[240px] w-full sm:h-64">
         {chartData.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>

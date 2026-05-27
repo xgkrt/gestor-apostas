@@ -24,7 +24,7 @@ export function BankrollDialog({
 }: BankrollDialogProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="bg-card border-border text-card-foreground rounded-3xl shadow-2xl">
+      <DialogContent className="bg-card border-border text-card-foreground rounded-2xl sm:rounded-3xl shadow-2xl">
         <DialogHeader>
           <DialogTitle className="text-foreground text-xl font-bold">
             {editingBankroll ? "Editar Banca" : "Nova Banca"}
@@ -68,7 +68,7 @@ export function BankrollDialog({
             </p>
           </div>
 
-          <DialogFooter className="mt-6 gap-2 sm:gap-2">
+          <DialogFooter className="mt-6 gap-2 sm:flex-row sm:gap-2">
             <Button
               type="button"
               variant="outline"

@@ -23,11 +23,11 @@ export default function Bankrolls() {
 
   return (
     <div className="space-y-6 w-full">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Bancas</h1>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Bancas</h1>
         <Button
           onClick={() => handlers.handleOpenDialog()}
-          className="rounded-xl h-11 px-6 font-semibold"
+          className="h-11 w-full rounded-xl px-6 font-semibold sm:w-auto"
         >
           <Plus className="mr-2 h-4 w-4" />
           Nova Banca
@@ -37,7 +37,7 @@ export default function Bankrolls() {
       {!bankrolls || bankrolls.length === 0 ? (
         <EmptyState onCreateClick={() => handlers.handleOpenDialog()} />
       ) : (
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 lg:gap-6">
           {bankrolls.map((bankroll) => (
             <BankrollCard
               key={bankroll.id}

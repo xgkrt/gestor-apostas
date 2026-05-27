@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table"
 import { Trash2 } from "lucide-react"
 import type { Bet } from "@/types"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { formatBetDate, getStatusClasses } from "../utils/formatting"
 import type { RecentBetsStatusFilter } from "../types"
 
@@ -63,9 +64,11 @@ export function RecentBetsTableContent({
   onPageChange,
   onViewAll,
 }: RecentBetsTableContentProps) {
+  const isMobile = useIsMobile()
+
   return (
     <>
-      <div className="p-8 pb-4 space-y-4">
+      <div className="space-y-4 p-4 pb-3 sm:p-6 sm:pb-4 lg:p-8 lg:pb-4">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <h4 className="text-lg font-semibold text-foreground">Últimas Apostas</h4>
           <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center">
@@ -102,6 +105,85 @@ export function RecentBetsTableContent({
       <div className="flex-1 min-h-0 overflow-x-auto">
         {bets.length > 0 ? (
           filteredBets.length > 0 ? (
+            <>
+            {isMobile ? (
+            <div className="space-y-3 px-4 pb-4">
+              {paginatedBets.map((bet) => (
+                <div key={bet.id} className="rounded-2xl border border-border bg-card p-4 text-card-foreground">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <p className="text-xs font-semibold text-muted-foreground">{formatBetDate(bet.betDate)}</p>
+                      <h3 className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-foreground">{bet.event}</h3>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        {bet.sportName || bet.sport || "-"} · {bet.marketName || bet.market || "-"}
+                      </p>
+                    </div>
+                    <div
+                      className={`min-w-[82px] text-center text-sm impact-money ${
+                        bet.profit >= 0 ? "text-emerald-600 dark:text-emerald-300" : "text-red-600 dark:text-rose-300"
+                      }`}
+                    >
+                      <div className="flex flex-col items-center leading-tight">
+                        <span>R$ {bet.profit.toFixed(2)}</span>
+                        <span className="mt-0.5 text-xs font-semibold opacity-85">{formatUnits(bet.profit)}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
+                    <div>
+                      <p className="font-bold uppercase tracking-widest text-muted-foreground">Casa</p>
+                      <p className="mt-1 truncate font-semibold text-foreground">{bet.bookmakerName || bet.bookmaker || "-"}</p>
+                    </div>
+                    <div>
+                      <p className="font-bold uppercase tracking-widest text-muted-foreground">Tipster</p>
+                      <p className="mt-1 truncate font-semibold text-foreground">{bet.tipsterName || bet.tipster || "-"}</p>
+                    </div>
+                    <div>
+                      <p className="font-bold uppercase tracking-widest text-muted-foreground">Odd</p>
+                      <p className="mt-1 impact-value text-foreground">{bet.odd.toFixed(2)}</p>
+                    </div>
+                    <div>
+                      <p className="font-bold uppercase tracking-widest text-muted-foreground">Stake</p>
+                      <p className="mt-1 impact-money text-foreground">R$ {bet.stake.toFixed(2)}</p>
+                    </div>
+                  </div>
+
+                  <div className="mt-4 flex items-center justify-between gap-3">
+                    <Select
+                      value={bet.status}
+                      onValueChange={(value) => value && onStatusChange(bet.id, value)}
+                      disabled={isUpdatingStatus}
+                    >
+                      <SelectTrigger className={`w-36 h-9 text-xs rounded-lg transition-all ${getStatusClasses(bet.status)}`}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="PENDING">Pending</SelectItem>
+                        <SelectItem value="GREEN">Green</SelectItem>
+                        <SelectItem value="RED">Red</SelectItem>
+                        <SelectItem value="VOID">Void</SelectItem>
+                        <SelectItem value="HALF_GREEN">Half Green</SelectItem>
+                        <SelectItem value="HALF_RED">Half Red</SelectItem>
+                      </SelectContent>
+                    </Select>
+
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => onDeleteClick(bet)}
+                      disabled={isDeletingBet}
+                      className="h-9 w-9 p-0 text-red-600 hover:text-red-700 hover:bg-red-50 transition-colors"
+                      title="Excluir aposta"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              ))}
+            </div>
+            ) : (
+
             <Table>
               <TableHeader>
                 <TableRow className="bg-muted/50 hover:bg-muted/50">
@@ -221,6 +303,8 @@ export function RecentBetsTableContent({
                 ))}
               </TableBody>
             </Table>
+            )}
+            </>
           ) : (
             <div className="p-8 text-center text-muted-foreground">
               Nenhum evento encontrado para a busca informada

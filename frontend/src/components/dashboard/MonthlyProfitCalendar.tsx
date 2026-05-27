@@ -122,13 +122,13 @@ export function MonthlyProfitCalendar({ bets }: MonthlyProfitCalendarProps) {
   }, [dailyProfitMap, visibleMonth])
 
   return (
-    <Card className="rounded-3xl border border-border bg-card text-card-foreground p-6 md:p-8">
-      <div className="mb-6 flex items-center justify-between gap-4">
+    <Card className="rounded-2xl border border-border bg-card text-card-foreground p-4 sm:rounded-3xl sm:p-6 md:p-8">
+      <div className="mb-4 flex items-center justify-between gap-3 sm:mb-6 sm:gap-4">
         <div className="flex items-center gap-3">
           <div className="rounded-xl bg-muted p-2 text-muted-foreground">
             <CalendarDays className="h-5 w-5" />
           </div>
-          <h4 className="text-xl font-semibold text-foreground">
+          <h4 className="text-base font-semibold text-foreground capitalize sm:text-xl">
             {format(visibleMonth, "MMMM yyyy", { locale: ptBR })}
           </h4>
         </div>
@@ -139,7 +139,7 @@ export function MonthlyProfitCalendar({ bets }: MonthlyProfitCalendarProps) {
             variant="outline"
             size="icon"
             onClick={() => setVisibleMonth((month) => subMonths(month, 1))}
-            className="h-10 w-10 rounded-xl"
+            className="h-9 w-9 rounded-xl sm:h-10 sm:w-10"
             aria-label="Mes anterior"
           >
             <ChevronLeft className="h-4 w-4" />
@@ -149,7 +149,7 @@ export function MonthlyProfitCalendar({ bets }: MonthlyProfitCalendarProps) {
             variant="outline"
             size="icon"
             onClick={() => setVisibleMonth((month) => addMonths(month, 1))}
-            className="h-10 w-10 rounded-xl"
+            className="h-9 w-9 rounded-xl sm:h-10 sm:w-10"
             aria-label="Proximo mes"
           >
             <ChevronRight className="h-4 w-4" />
@@ -162,7 +162,7 @@ export function MonthlyProfitCalendar({ bets }: MonthlyProfitCalendarProps) {
           {WEEK_DAYS.map((day) => (
             <div
               key={day}
-              className="h-11 border-r border-border text-center text-xs font-bold uppercase tracking-widest text-muted-foreground last:border-r-0 flex items-center justify-center"
+              className="h-9 border-r border-border text-center text-[10px] font-bold uppercase tracking-widest text-muted-foreground last:border-r-0 flex items-center justify-center sm:h-11 sm:text-xs"
             >
               {day}
             </div>
@@ -187,7 +187,7 @@ export function MonthlyProfitCalendar({ bets }: MonthlyProfitCalendarProps) {
               <div
                 key={format(day.date, "yyyy-MM-dd")}
                 className={[
-                  "min-h-[98px] p-2 md:p-3",
+                  "min-h-[74px] p-1.5 sm:min-h-[98px] sm:p-2 md:p-3",
                   !isLastColumn ? "border-r border-border" : "",
                   !isLastRow ? "border-b border-border" : "",
                   dayBackgroundClass,
@@ -195,16 +195,16 @@ export function MonthlyProfitCalendar({ bets }: MonthlyProfitCalendarProps) {
               >
                 <div className="flex h-full flex-col">
                   <div
-                    className={day.isCurrentMonth ? "text-sm font-semibold text-foreground" : "text-sm font-semibold text-muted-foreground"}
+                    className={day.isCurrentMonth ? "text-xs font-semibold text-foreground sm:text-sm" : "text-xs font-semibold text-muted-foreground sm:text-sm"}
                   >
                     {format(day.date, "d")}
                   </div>
 
                   {day.isCurrentMonth && day.hasBets ? (
-                    <div className="mt-2 flex flex-1 flex-col items-center justify-center space-y-1 text-center">
+                    <div className="mt-1 flex flex-1 flex-col items-center justify-center space-y-0.5 text-center sm:mt-2 sm:space-y-1">
                       <p
                         className={[
-                          "truncate text-base impact-money",
+                          "max-w-full truncate text-[11px] impact-money sm:text-base",
                           profitPositive ? "text-emerald-700 dark:text-emerald-300" : "",
                           profitNegative ? "text-red-700 dark:text-rose-300" : "",
                           !profitPositive && !profitNegative ? "text-muted-foreground" : "",
@@ -215,7 +215,7 @@ export function MonthlyProfitCalendar({ bets }: MonthlyProfitCalendarProps) {
                       </p>
                       <p
                         className={[
-                          "truncate text-xs impact-value",
+                          "max-w-full truncate text-[10px] impact-value sm:text-xs",
                           profitPositive ? "text-emerald-700 dark:text-emerald-300" : "",
                           profitNegative ? "text-red-700 dark:text-rose-300" : "",
                           !profitPositive && !profitNegative ? "text-muted-foreground" : "",

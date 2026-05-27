@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { Pencil, Trash2 } from "lucide-react"
 import { formatBetDate, getStatusClasses, getProfitClasses } from "../utils/formatting"
 import { STATUS_LABELS, ALL_STATUSES } from "../types"
@@ -36,8 +37,92 @@ export function BetsTable({
   isUpdatingStatus,
   isUpdatingBet,
 }: BetsTableProps) {
+  const isMobile = useIsMobile()
+
   return (
     <div className="flex flex-1 flex-col min-h-0">
+      {isMobile ? (
+      <div className="space-y-3 p-3">
+        {paginatedBets.map((bet: Bet) => (
+          <div key={bet.id} className="rounded-2xl border border-border bg-card p-4 text-card-foreground">
+            <div className="flex items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-xs font-semibold text-muted-foreground">{formatBetDate(bet.betDate)}</p>
+                <h3 className="mt-1 line-clamp-2 text-sm font-bold leading-snug text-foreground">{bet.event}</h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {bet.sportName || bet.sport || "-"} · {bet.marketName || bet.market || "-"}
+                </p>
+              </div>
+              <div className={`${getProfitClasses(bet.profit)} min-w-[82px] text-center`}>
+                <div className="flex flex-col items-center leading-tight">
+                  <span>R$ {bet.profit.toFixed(2)}</span>
+                  <span className="mt-0.5 text-xs font-semibold opacity-85">{formatUnits(bet.profit)}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
+              <div>
+                <p className="font-bold uppercase tracking-widest text-muted-foreground">Casa</p>
+                <p className="mt-1 truncate font-semibold text-foreground">{bet.bookmakerName || bet.bookmaker || "-"}</p>
+              </div>
+              <div>
+                <p className="font-bold uppercase tracking-widest text-muted-foreground">Tipster</p>
+                <p className="mt-1 truncate font-semibold text-foreground">{bet.tipsterName || bet.tipster || "-"}</p>
+              </div>
+              <div>
+                <p className="font-bold uppercase tracking-widest text-muted-foreground">Odd</p>
+                <p className="mt-1 impact-value text-foreground">{bet.odd.toFixed(2)}</p>
+              </div>
+              <div>
+                <p className="font-bold uppercase tracking-widest text-muted-foreground">Stake</p>
+                <p className="mt-1 impact-money text-foreground">R$ {bet.stake.toFixed(2)}</p>
+              </div>
+            </div>
+
+            <div className="mt-4 flex items-center justify-between gap-3">
+              <Select
+                value={bet.status}
+                onValueChange={(value) => onStatusChange(bet.id, value as BetStatus)}
+                disabled={isUpdatingStatus}
+              >
+                <SelectTrigger className={`h-9 w-36 rounded-lg border text-xs ${getStatusClasses(bet.status)}`}>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {ALL_STATUSES.map((status) => (
+                    <SelectItem key={status} value={status}>
+                      {STATUS_LABELS[status]}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <div className="flex justify-end gap-1">
+                <button
+                  type="button"
+                  onClick={() => onEditClick(bet)}
+                  disabled={isUpdatingBet}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg cursor-pointer text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+                  aria-label="Editar aposta"
+                >
+                  <Pencil className="h-4 w-4" />
+                </button>
+                <button
+                  type="button"
+                  onClick={() => onDeleteClick(bet.id)}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg cursor-pointer text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
+                  aria-label="Excluir aposta"
+                >
+                  <Trash2 className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+      ) : (
+
       <div className="flex-1 min-h-0 overflow-x-auto">
         <Table>
           <TableHeader>
@@ -126,6 +211,7 @@ export function BetsTable({
           </TableBody>
         </Table>
       </div>
+      )}
 
       <div className="mt-auto pt-4 border-t border-border p-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
         <span className="text-sm text-muted-foreground">

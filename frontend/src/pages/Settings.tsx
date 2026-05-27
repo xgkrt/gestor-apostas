@@ -51,8 +51,8 @@ const Settings = () => {
   };
 
   return (
-    <div className="p-8">
-      <h1 className="text-3xl font-bold mb-6">Configurações</h1>
+    <div className="p-0">
+      <h1 className="mb-4 text-2xl font-bold sm:mb-6 sm:text-3xl">Configurações</h1>
 
       <div className="mb-6 rounded-2xl border border-border bg-card p-4 text-card-foreground">
         <p className="text-sm font-semibold text-foreground">Preferências do Dashboard</p>
@@ -84,13 +84,15 @@ const Settings = () => {
       </div>
       
       <Tabs defaultValue="sports" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5">
+        <div className="overflow-x-auto pb-1">
+        <TabsList className="grid min-w-[720px] grid-cols-5 sm:min-w-0 sm:w-full">
           <TabsTrigger value="sports">Esportes</TabsTrigger>
           <TabsTrigger value="championships">Campeonatos</TabsTrigger>
           <TabsTrigger value="markets">Mercados</TabsTrigger>
           <TabsTrigger value="bookmakers">Casas de Apostas</TabsTrigger>
           <TabsTrigger value="tipsters">Tipsters</TabsTrigger>
         </TabsList>
+        </div>
         
         <TabsContent value="sports">
           <SportTab />

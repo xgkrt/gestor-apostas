@@ -35,7 +35,7 @@ export function DashboardMetrics({
   const isRoiPositive = roi >= 0
 
   return (
-    <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <section className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
       <MetricCard
         label="Banca Atual"
         value={`R$ ${currentBalance.toFixed(2)}`}

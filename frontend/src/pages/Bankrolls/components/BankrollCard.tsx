@@ -9,8 +9,8 @@ import type { BankrollCardProps } from "../types"
  */
 export function BankrollCard({ bankroll, onEdit, onDelete }: BankrollCardProps) {
   return (
-    <Card className="bg-card text-card-foreground border-border rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
-      <CardHeader className="bg-muted/40 border-b border-border p-6">
+    <Card className="bg-card text-card-foreground border-border rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+      <CardHeader className="bg-muted/40 border-b border-border p-4 sm:p-6">
         <CardTitle className="flex items-center justify-between text-foreground text-lg">
           <span>{bankroll.name}</span>
           <div className="flex gap-2">
@@ -34,12 +34,12 @@ export function BankrollCard({ bankroll, onEdit, onDelete }: BankrollCardProps) 
           </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-4 p-6">
+      <CardContent className="space-y-4 p-4 sm:p-6">
         <div>
           <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider mb-1">
             Saldo Inicial
           </p>
-          <p className="text-2xl font-bold text-foreground">
+          <p className="text-xl font-bold text-foreground sm:text-2xl">
             R$ {bankroll.initialBalance.toFixed(2)}
           </p>
         </div>
@@ -47,7 +47,7 @@ export function BankrollCard({ bankroll, onEdit, onDelete }: BankrollCardProps) 
           <p className="text-xs text-muted-foreground uppercase font-bold tracking-wider mb-1">
             Saldo Atual
           </p>
-          <p className="text-2xl font-bold text-emerald-600">
+          <p className="text-xl font-bold text-emerald-600 sm:text-2xl">
             R$ {bankroll.currentBalance.toFixed(2)}
           </p>
         </div>

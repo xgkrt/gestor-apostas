@@ -142,7 +142,7 @@ export default function Annual() {
     <div className="w-full space-y-6">
       <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-foreground">Anual</h1>
+          <h1 className="text-2xl font-extrabold tracking-tight text-foreground sm:text-3xl">Anual</h1>
           <p className="mt-2 text-sm text-muted-foreground">
             Resultado mensal da banca no ano selecionado.
           </p>
@@ -196,7 +196,7 @@ export default function Annual() {
               return (
                 <Card
                   key={monthResult.month}
-                  className="min-h-[150px] rounded-2xl border-border bg-card p-5 text-card-foreground"
+                  className="min-h-[132px] rounded-2xl border-border bg-card p-4 text-card-foreground sm:min-h-[150px] sm:p-5"
                 >
                   <div className="flex h-full flex-col">
                     <div className="flex items-center justify-between gap-3">
@@ -228,7 +228,7 @@ export default function Annual() {
             })}
           </section>
 
-          <Card className="rounded-3xl border-border bg-card p-6 text-card-foreground">
+          <Card className="rounded-2xl border-border bg-card p-4 text-card-foreground sm:rounded-3xl sm:p-6">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div className="flex items-center gap-3">
                 <div className="rounded-xl bg-muted p-2 text-muted-foreground">

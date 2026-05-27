@@ -182,12 +182,12 @@ export function ProfitByBookmaker({ data }: ProfitByBookmakerProps) {
   const endIndex = Math.min(startIndex + PAGE_SIZE, data.length)
 
   return (
-    <Card className="bg-card p-6 rounded-3xl border border-border shadow-sm flex flex-col h-full">
-      <h4 className="text-lg font-semibold text-foreground mb-4">Lucro por Casa</h4>
+    <Card className="bg-card p-4 sm:p-6 rounded-2xl sm:rounded-3xl border border-border shadow-sm flex flex-col h-full">
+      <h4 className="text-base font-semibold text-foreground mb-4 sm:text-lg">Lucro por Casa</h4>
 
       {data.length > 0 ? (
         <div className="flex flex-1 flex-col min-h-0">
-          <div className="h-[340px] w-full">
+          <div className="h-[280px] w-full sm:h-[340px]">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={chartData}
